@@ -2,15 +2,15 @@ services:
   mongodb:
     build: ./mongodb
     image: chandana137/mongodb:v1
-    conatiner_name: 
-      - mongodb
+    container_name:  mongodb
     volumes:
       - mongodb:/data/db
   catalogue:
     build: ./catalogue
     image: chandana137/catalogue:v1
     container_name: catalogue
-    depends_on: mongodb
+    depends_on: 
+      - mongodb
   redis:
     image: redis:7
     container_name: redis
@@ -20,8 +20,8 @@ services:
     image: rabbitmq:3
     container_name: rabbitmq
     environment:
-    RABBITMQ_DEFAULT_USER: roboshop
-    RABBITMQ_DEFAULT_PASS: roboshop123
+      RABBITMQ_DEFAULT_USER: roboshop
+      RABBITMQ_DEFAULT_PASS: roboshop123
     volumes:
       - rabbitmq:/var/lib/rabbitmq
   mysql:
