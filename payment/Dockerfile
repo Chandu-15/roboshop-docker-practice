@@ -24,7 +24,7 @@ ENV CART_HOST="cart" \
     AMQP_PASS="roboshop123"
 COPY --from=build /install /usr/local
 COPY --chown=roboshop:roboshop payment.ini *.py .
-CMD ["sh","-c","sleep 30 && uwsgi --ini payment.ini"]
+ENTRYPOINT ["sh","-c","sleep 30 && uwsgi --ini payment.ini"]
 
 
 
