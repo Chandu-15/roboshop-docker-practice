@@ -35,8 +35,6 @@ COPY payment.ini .
 COPY *.py .
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt 
-RUN addgroup -S roboshop && adduser -S roboshop -G roboshop && \ 
-    chown roboshop:roboshop /opt/server
 ENV CART_HOST="cart" \
     CART_PORT="8080" \
     USER_HOST="user" \
@@ -44,5 +42,4 @@ ENV CART_HOST="cart" \
     AMQP_HOST="rabbitmq" \
     AMQP_USER="roboshop" \
     AMQP_PASS="roboshop123"
-USER roboshop 
 CMD ["uwsgi","--ini","payment.ini"]
