@@ -14,6 +14,7 @@ LABEL com.project="roboshop" \
 ENV REDIS_URL="redis://redis:6379" \
     MONGO_URL="mongodb://mongodb:27017/catalogue"
 COPY --from=build --chown=roboshop:roboshop /opt/server . 
+USER roboshop
 CMD ["server.js"]
 ENTRYPOINT ["node"]
 
