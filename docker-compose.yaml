@@ -1,11 +1,13 @@
 services:
   mongodb:
+    build: ./mongodb
     image: chandana137/mongodb:v1
     conatiner_name: 
       - mongodb
     volumes:
       - mongodb:/data/db
   catalogue:
+    build: ./catalogue
     image: chandana137/catalogue:v1
     container_name: catalogue
     depends_on: mongodb
@@ -23,23 +25,27 @@ services:
     volumes:
       - rabbitmq:/var/lib/rabbitmq
   mysql:
+    build: ./mysql
     image: chandana137/mysql:v1
     container_name: mysql
     volumes:
       - mysql:/var/lib/mysql
   cart:
+    build: ./cart
     image: chandana137/cart:v1
     container_name: cart
     depends_on:
       - catalogue
       - redis
   user:
+    build: ./user
     image: chandana137/user:v1
     container_name: user
     depends_on:
       - redis
       - mongodb
   payment:
+    build: ./payment
     image: chandana137/payment:v1
     container_name: payment
     depends_on:
@@ -47,12 +53,14 @@ services:
       - user
       - rabbitmq
   shipping:
+    build: ./shipping
     image: chandana137/shipping:v1
     container_name: shipping
     depends_on:
       - cart
       - mysql
   frontend:
+    build: ./frontend
     image: chandana137/frontend:v1
     container_name: frontend
     ports:
