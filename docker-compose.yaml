@@ -1,0 +1,76 @@
+services:
+  mongodb:
+    image: chandana137/mongodb:v1
+    conatiner_name: 
+      - mongodb
+    volumes:
+      - mongodb:/data/db
+  catalogue:
+    image: chandana137/catalogue:v1
+    container_name: catalogue
+    depends_on: mongodb
+  redis:
+    image: redis:7
+    container_name: redis
+    volumes:
+      - redis:/data
+  rabbitmq:
+    image: rabbitmq:3
+    container_name: rabbitmq
+    environment:
+    RABBITMQ_DEFAULT_USER: roboshop
+    RABBITMQ_DEFAULT_PASS: roboshop123
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
+  mysql:
+    image: chandana137/mysql:v1
+    container_name: mysql
+    volumes:
+      - mysql:/var/lib/mysql
+  cart:
+    image: chandana137/cart:v1
+    container_name: cart
+    depends_on:
+      - catalogue
+      - redis
+  user:
+    image: chandana137/user:v1
+    container_name: user
+    depends_on:
+      - redis
+      - mongodb
+  payment:
+    image: chandana137/payment:v1
+    container_name: payment
+    depends_on:
+      - cart
+      - user
+      - rabbitmq
+  shipping:
+    image: chandana137/shipping:v1
+    container_name: shipping
+    depends_on:
+      - cart
+      - mysql
+  frontend:
+    image: chandana137/frontend:v1
+    container_name: frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - cart
+      - user
+      - shipping
+      - payment
+      - catalogue
+volumes:
+  mongodb:
+  redis:
+  rabbitmq:
+  mysql:
+
+networks:
+  default: 
+    driver: bridge
+    name: roboshop
+    external: false
